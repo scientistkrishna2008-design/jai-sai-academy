@@ -332,7 +332,7 @@ export default function Home() {
 
       {/* About Section */}
       <section className="section">
-        <div className="container" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4rem', alignItems: 'center' }}>
+        <div className="container about-grid">
           <div>
             <span className="section-tag">About The Academy</span>
             <h2 className="section-title" style={{ fontSize: '2.5rem', marginBottom: '1.5rem' }}>Nurturing Excellence in Language, Science & Fine Arts</h2>

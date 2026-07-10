@@ -40,7 +40,7 @@ export default function Achievements() {
           </p>
         </div>
 
-        <div className="strengths-grid" style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}>
+        <div className="strengths-grid">
           {awards.map((award) => (
             <div key={award.id} className="card glass" style={{ display: 'flex', gap: '1.5rem', alignItems: 'flex-start', padding: '2rem' }}>
               <div className="strength-icon-box" style={{ background: 'hsl(var(--secondary) / 0.1)', color: 'hsl(var(--secondary))', border: '1px solid hsl(var(--secondary) / 0.2)', width: '56px', height: '56px', fontSize: '1.5rem', flexShrink: 0 }}>

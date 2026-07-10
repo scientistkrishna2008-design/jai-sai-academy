@@ -17,7 +17,7 @@ export default function Achievers() {
         </p>
       </div>
 
-      <div className="gallery-grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '2rem' }}>
+      <div className="gallery-grid">
         {achievers.map((student) => (
           <div key={student.id} className="card glass" style={{ padding: 0, overflow: 'hidden', display: 'flex', flexDirection: 'column', height: '100%' }}>
             <div style={{ height: '240px', width: '100%', position: 'relative', overflow: 'hidden', borderBottom: '1px solid hsl(var(--card-border))' }}>
