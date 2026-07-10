@@ -56,6 +56,22 @@
   --glass-border: 220 20% 88% / 0.6;
 }
 
+html {
+  font-size: 16px;
+}
+
+@media (min-width: 769px) and (max-width: 1280px) {
+  html {
+    font-size: 1.25vw; /* Smoothly scales down elements sized in rem */
+  }
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 14px; /* Slightly smaller base font for mobile to prevent cramping */
+  }
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -124,7 +140,7 @@ h1, h2, h3, h4, h5, h6 {
   left: 0;
   right: 0;
   z-index: 1000;
-  height: 72px;
+  height: 4.5rem; /* 72px */
   display: flex;
   align-items: center;
   transition: all 0.3s ease;
@@ -134,7 +150,7 @@ h1, h2, h3, h4, h5, h6 {
   background: hsl(var(--card-bg));
   border-bottom: 1px solid hsl(var(--card-border));
   box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3);
-  height: 64px;
+  height: 4rem; /* 64px */
 }
 
 .nav-container {
@@ -209,7 +225,7 @@ h1, h2, h3, h4, h5, h6 {
   }
   .nav-links {
     position: fixed;
-    top: 72px;
+    top: 4.5rem; /* 72px */
     left: 0;
     right: 0;
     bottom: 0;
