@@ -68,60 +68,65 @@ export default function AdminPanel() {
   // Helper for image upload -> base64
   const handleImageUpload = (e, callback) => {
     const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const img = new Image();
-        img.onload = () => {
-          try {
-            const canvas = document.createElement('canvas');
-            const MAX_WIDTH = 600;
-            const MAX_HEIGHT = 600;
-            let width = img.width;
-            let height = img.height;
+    if (!file) return;
 
-            if (width > height) {
-              if (width > MAX_WIDTH) {
-                height *= MAX_WIDTH / width;
-                width = MAX_WIDTH;
-              }
-            } else {
-              if (height > MAX_HEIGHT) {
-                width *= MAX_HEIGHT / height;
-                height = MAX_HEIGHT;
-              }
+    try {
+      const url = URL.createObjectURL(file);
+      const img = new Image();
+      
+      img.onload = () => {
+        try {
+          const canvas = document.createElement('canvas');
+          const MAX_WIDTH = 600;
+          const MAX_HEIGHT = 600;
+          let width = img.width;
+          let height = img.height;
+
+          if (width > height) {
+            if (width > MAX_WIDTH) {
+              height *= MAX_WIDTH / width;
+              width = MAX_WIDTH;
             }
-
-            canvas.width = width;
-            canvas.height = height;
-            const ctx = canvas.getContext('2d');
-            
-            // Fill background with white to prevent transparent PNGs turning black
-            ctx.fillStyle = '#ffffff';
-            ctx.fillRect(0, 0, width, height);
-            ctx.drawImage(img, 0, 0, width, height);
-            
-            const compressedBase64 = canvas.toDataURL('image/jpeg', 0.6);
-            callback(compressedBase64);
-          } catch (err) {
-            console.error("Canvas compression error:", err);
-            // Fallback to raw image if canvas fails
-            callback(reader.result);
+          } else {
+            if (height > MAX_HEIGHT) {
+              width *= MAX_HEIGHT / height;
+              height = MAX_HEIGHT;
+            }
           }
-        };
-        img.onerror = () => {
-          console.error("Image loading error in canvas");
-          // Fallback to raw image if image loading fails
-          callback(reader.result);
-        };
-        img.src = reader.result;
+
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          
+          // Fill background with white
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(0, 0, width, height);
+          ctx.drawImage(img, 0, 0, width, height);
+          
+          const compressedBase64 = canvas.toDataURL('image/jpeg', 0.6);
+          callback(compressedBase64);
+          URL.revokeObjectURL(url);
+        } catch (err) {
+          console.error("Canvas error:", err);
+          fallbackToRawBase64(file, callback);
+        }
       };
-      reader.readAsDataURL(file);
+      
+      img.onerror = () => {
+        console.error("Image load error");
+        fallbackToRawBase64(file, callback);
+      };
+      
+      img.src = url;
+    } catch (err) {
+      fallbackToRawBase64(file, callback);
     }
-    // Reset file input so they can re-select the same file
-    if (e.target) {
-      e.target.value = '';
-    }
+  };
+
+  const fallbackToRawBase64 = (file, callback) => {
+    const reader = new FileReader();
+    reader.onloadend = () => callback(reader.result);
+    reader.readAsDataURL(file);
   };
 
   const openAddForm = (section, defaultData) => {
