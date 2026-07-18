@@ -86,14 +86,19 @@ export default function Faculty() {
         <p style={{ color: 'hsl(var(--text-secondary))', maxWidth: '600px', margin: '0 auto 1.5rem', lineHeight: '1.5' }}>
           We are always looking for certified teachers, native translators, and specialized tutors in Ambattur to expand our languages and mathematics departments.
         </p>
-        <a 
-          href="https://docs.google.com/forms/d/e/1FAIpQLSePmNCBtSfm_zcZQ0TUHURzv0iqySQfEqn32ZRwkminGfs11A/viewform?usp=publish-editor" 
-          target="_blank" 
-          rel="noopener noreferrer" 
-          className="btn btn-secondary"
-        >
-          Fill out Recruitment Form
-        </a>
+        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+          <a href="#contact" className="btn btn-outline">
+            Contact Admissions Desk
+          </a>
+          <a 
+            href="https://docs.google.com/forms/d/e/1FAIpQLSePmNCBtSfm_zcZQ0TUHURzv0iqySQfEqn32ZRwkminGfs11A/viewform?usp=publish-editor" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="btn btn-secondary"
+          >
+            Fill out the recruitment form
+          </a>
+        </div>
       </div>
     </div>
   );
