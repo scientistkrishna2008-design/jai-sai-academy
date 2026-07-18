@@ -72,36 +72,55 @@ export default function AdminPanel() {
       const reader = new FileReader();
       reader.onloadend = () => {
         const img = new Image();
-        img.src = reader.result;
         img.onload = () => {
-          const canvas = document.createElement('canvas');
-          const MAX_WIDTH = 600;
-          const MAX_HEIGHT = 600;
-          let width = img.width;
-          let height = img.height;
+          try {
+            const canvas = document.createElement('canvas');
+            const MAX_WIDTH = 600;
+            const MAX_HEIGHT = 600;
+            let width = img.width;
+            let height = img.height;
 
-          if (width > height) {
-            if (width > MAX_WIDTH) {
-              height *= MAX_WIDTH / width;
-              width = MAX_WIDTH;
+            if (width > height) {
+              if (width > MAX_WIDTH) {
+                height *= MAX_WIDTH / width;
+                width = MAX_WIDTH;
+              }
+            } else {
+              if (height > MAX_HEIGHT) {
+                width *= MAX_HEIGHT / height;
+                height = MAX_HEIGHT;
+              }
             }
-          } else {
-            if (height > MAX_HEIGHT) {
-              width *= MAX_HEIGHT / height;
-              height = MAX_HEIGHT;
-            }
+
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            
+            // Fill background with white to prevent transparent PNGs turning black
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, width, height);
+            ctx.drawImage(img, 0, 0, width, height);
+            
+            const compressedBase64 = canvas.toDataURL('image/jpeg', 0.6);
+            callback(compressedBase64);
+          } catch (err) {
+            console.error("Canvas compression error:", err);
+            // Fallback to raw image if canvas fails
+            callback(reader.result);
           }
-
-          canvas.width = width;
-          canvas.height = height;
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, width, height);
-          
-          const compressedBase64 = canvas.toDataURL('image/jpeg', 0.6);
-          callback(compressedBase64);
         };
+        img.onerror = () => {
+          console.error("Image loading error in canvas");
+          // Fallback to raw image if image loading fails
+          callback(reader.result);
+        };
+        img.src = reader.result;
       };
       reader.readAsDataURL(file);
+    }
+    // Reset file input so they can re-select the same file
+    if (e.target) {
+      e.target.value = '';
     }
   };
 
